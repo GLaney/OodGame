@@ -101,8 +101,8 @@ namespace StarterGame
 				player.start("shop");
 				player.informationMessage("Shopkeep: Welcome to my shop good sir. Have a look at my wares, maybe something" +
 					"\nwill cath your eye. I buy and sell all manner of things.\n\n");
-				player.informationMessage("\nShop Inventory:        \n   NAME       TYPE            " +
-					"WEIGHT          VALUE     Damage/Armor\n" + shopInventory.contents());
+				player.informationMessage("\nShop Inventory:        \n       NAME       TYPE            " +
+					"WEIGHT          PRICE    QUANTITY      DAMAGE/ARMOR\n" + shopInventory.contents());
 
 			}
 
@@ -120,9 +120,10 @@ namespace StarterGame
 			_currentLife -= finalDmg;
 			return finalDmg;
 		}
-		public void addToShop(IItem item)
+		public void addToShop(IItem item, int quantity)
 		{
 			shopInventory.put(item, item.Name);
+			item.Quantity = quantity;
 		}
 		public void markUp(IItem item)
 		{

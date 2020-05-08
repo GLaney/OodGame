@@ -5,7 +5,7 @@ using System;
 namespace StarterGame
 {
 
-    public enum ParserState { Normal, Battle, Shop, Inventory, Dead}
+    public enum ParserState { Normal, Battle, Shop, Inventory, Dead, Win}
     public interface IParserState
     {
         ParserState State { get; }
@@ -89,6 +89,24 @@ namespace StarterGame
         public ParserState State { get { return ParserState.Dead; } }
 
         public GameStateDead()
+        {
+
+        }
+        public void Enter(Parser parser)
+        {
+            Command[] commandArray = { };
+            parser.Push(new CommandWords(commandArray));
+        }
+        public void Exit(Parser parser)
+        {
+            parser.Pop();
+        }
+    }
+    public class GameStateWin : IParserState
+    {
+        public ParserState State { get { return ParserState.Win; } }
+
+        public GameStateWin()
         {
 
         }

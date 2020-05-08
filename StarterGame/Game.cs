@@ -19,12 +19,14 @@ namespace StarterGame
             parser = new Parser(new CommandWords());            
             player = new Player("Hero", 100, 1, gameWorld.Entrance);
             
+            
 
             commandQueue = new Queue<Command>();
 
             //adding commands to the command queue
-            //GoCommand gc = new GoCommand();
-            //gc.secondWord = "East";
+            GoCommand gc = new GoCommand();
+            gc.secondWord = "east";
+            commandQueue.Enqueue(gc);
 
             //TakeCommand tc = new TakeCommand();
             //tc.secondWord = "Cloak";
@@ -71,9 +73,16 @@ namespace StarterGame
             bool finished = false;
             while (!finished && playing)
             {
+
+
+                NotificationCenter.Instance.addObserver("GameOver", GameOver);
+                if(!playing)
+                {
+                    break;
+                }
                 Console.ForegroundColor = ConsoleColor.White;
                 Console.Write("\n>");
-                
+
                 Command command = parser.parseCommand(Console.ReadLine().ToLower());
                 Console.ForegroundColor = ConsoleColor.Green;
                 if (command == null)
@@ -84,7 +93,7 @@ namespace StarterGame
                 {
                     finished = command.execute(player);
                 }
-                NotificationCenter.Instance.addObserver("PlayerHasDied", PlayerHasDied);
+
             }
         }
 
@@ -126,10 +135,11 @@ namespace StarterGame
             }
         }
 
-        public void PlayerHasDied(Notification notification)
+        public void GameOver(Notification notification)
         {
             playing = false;
         }
+        
 
     }
 }

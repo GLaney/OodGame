@@ -149,7 +149,9 @@ namespace StarterGame
 
         public void showInventory()
         {
-            informationMessage("\nInventory:        Weight: " + _currentWeight + "/" + _maxWeight + "\n   NAME       TYPE            WEIGHT          VALUE\n" + inventory.contents());
+            informationMessage("\nInventory:        Weight: " + _currentWeight + "/" + _maxWeight + "\n       NAME       TYPE            " +
+
+                    "WEIGHT          PRICE    QUANTITY      DAMAGE/ARMOR\n" + inventory.contents());
         }
 
         public void walkTo(string direction)
@@ -166,12 +168,14 @@ namespace StarterGame
                 //Player did move to next room
                 NotificationCenter.Instance.postNotification(new Notification("PlayerDidEnterRoom", this, userInfo));
 
-                this.informationMessage("\nThe player is now in " + this._currentRoom.description());
-                
+                if (!_currentRoom.tag.Equals("victoryRoom"))
+                {
+                    this.informationMessage("\n" + this._currentRoom.description());
+                }
             }
             else
             {
-                this.warningMessage("\nThere is no door on " + direction);
+                this.warningMessage("\nThere is no door to the " + direction + ".");
             }
         }
         
@@ -211,6 +215,10 @@ namespace StarterGame
             else if(state.Equals("dead"))
             {
                 userInfo["state"] = new GameStateDead();
+            }
+            else if (state.Equals("win"))
+            {
+                userInfo["state"] = new GameStateWin();
             }
             NotificationCenter.Instance.postNotification(new Notification("PlayerWillEnterState", this, userInfo));
         }
@@ -324,7 +332,20 @@ namespace StarterGame
             Console.ForegroundColor = ConsoleColor.Black;
             outputMessage("You were killed by a " + enemy);
             start("dead");
-            NotificationCenter.Instance.postNotification(new Notification("PlayerHasDied", this));
+            NotificationCenter.Instance.postNotification(new Notification("GameOver", this));
+        }
+        public void win()
+        {
+            informationMessage("\nAs you walk in the room you see her lying in the corner of the room. When she sees you she " +
+                "immediately \nruns, jumps into you arms, and begins to rub her furry face against yours.");
+            ConsoleColor bColor = Console.BackgroundColor;
+            ConsoleColor fColor = Console.ForegroundColor;
+            Console.BackgroundColor = ConsoleColor.Yellow;
+            Console.ForegroundColor = ConsoleColor.Black;
+            outputMessage("\nCongratulations, you have fought your way through the well to save your precious little kitty!!!");
+            Console.BackgroundColor = bColor;
+            Console.ForegroundColor = fColor;
+            NotificationCenter.Instance.postNotification(new Notification("GameOver", this));
         }
 
         public void equip(string name)

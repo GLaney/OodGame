@@ -134,8 +134,65 @@ namespace StarterGame
         override
             public string ToString()
         {
-            return this._name + "      " + this._itemType + "              " + this._weight + "             "
-                + this._value + "G               " + this.ArmorValue + "      " + this.Quantity;
+            string space1 = "";
+            string space2 = "";
+            string space3 = "";
+            string space4 = "";
+            string space5 = "";
+
+            switch(_name)
+            {
+                case "cloak":
+                    space1 = "      ";
+                    space2 = "               ";
+                    space3 = "             ";
+                    space4 = "         ";
+                    space5 = "               ";
+                    break;
+
+                case "tunic":
+                    space1 = "      ";
+                    space2 = "               ";
+                    space3 = "             ";
+                    space4 = "         ";
+                    space5 = "               ";
+                    break;
+
+                case "leather":
+                    space1 = "    ";
+                    space2 = "               ";
+                    space3 = "             ";
+                    space4 = "         ";
+                    space5 = "               ";
+                    break;
+
+                case "chain":
+                    space1 = "      ";
+                    space2 = "               ";
+                    space3 = "             ";
+                    space4 = "         ";
+                    space5 = "              ";
+                    break;
+
+                case "scale":
+                    space1 = "      ";
+                    space2 = "              ";
+                    space3 = "            ";
+                    space4 = "         ";
+                    space5 = "              ";
+                    break;
+
+                case "plate":
+                    space1 = "      ";
+                    space2 = "              ";
+                    space3 = "            ";
+                    space4 = "         ";
+                    space5 = "              ";
+                    break;
+            }
+
+            return this._name + space1 + this._itemType + space2 + this._weight + space3
+                + this._value + "G" + space4 + this.Quantity + space5 + this.ArmorValue;
         }
     }
 
@@ -256,10 +313,67 @@ namespace StarterGame
         override
             public string ToString()
         {
-            return this._name + "      " + this._itemType + "              " + this._weight + 
-                "             " + this._value + "G               " + this.Damage + "      " + this.Quantity;
+            string space1 = "";
+            string space2 = "";
+            string space3 = "";
+            string space4 = "";
+            string space5 = "";
+
+            switch (_name)
+            {
+                case "dagger":
+                    space1 = "     ";
+                    space2 = "              ";
+                    space3 = "             ";
+                    space4 = "         ";
+                    space5 = "               ";
+                    break;
+
+                case "club":
+                    space1 = "       ";
+                    space2 = "              ";
+                    space3 = "             ";
+                    space4 = "         ";
+                    space5 = "               ";
+                    break;
+
+                case "staff":
+                    space1 = "      ";
+                    space2 = "              ";
+                    space3 = "             ";
+                    space4 = "         ";
+                    space5 = "              ";
+                    break;
+
+                case "mace":
+                    space1 = "       ";
+                    space2 = "             ";
+                    space3 = "             ";
+                    space4 = "         ";
+                    space5 = "              ";
+                    break;
+
+                case "sword":
+                    space1 = "      ";
+                    space2 = "              ";
+                    space3 = "            ";
+                    space4 = "         ";
+                    space5 = "              ";
+                    break;
+
+                case "axe":
+                    space1 = "        ";
+                    space2 = "             ";
+                    space3 = "            ";
+                    space4 = "         ";
+                    space5 = "              ";
+                    break;
+            }
+
+            return this._name + space1 + this._itemType + space2 + this._weight + space3
+                + this._value + "G" + space4 + this.Quantity + space5 + this.Damage;
         }
-        
+
     }
 
     public class Item : IItem
@@ -388,8 +502,31 @@ namespace StarterGame
         override
             public string ToString()
         {
-            return this._name + "      " + this._itemType + "              " + this._weight + "             " + this._value + "G" + 
-                "      " + this.Quantity;
+            string space1 = "";
+            string space2 = "";
+            string space3 = "";
+            string space4 = "";
+
+            switch (_name)
+            {
+                case "potion":
+                    space1 = "     ";
+                    space2 = "              ";
+                    space3 = "             ";
+                    space4 = "         ";
+                    break;
+
+                case "bomb":
+                    space1 = "       ";
+                    space2 = "               ";
+                    space3 = "            ";
+                    space4 = "         ";
+                    break;
+
+            }
+
+            return this._name + space1 + this._itemType + space2 + this._weight + space3
+                + this._value + "G" + space4 + this.Quantity;
         }
 
     }
