@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace StarterGame
 {
-    public class NotificationCenter
+    public class NotificationCenter //receives various notifications and passes them on to observers who are subscribed to those notifications.
     {
         private Dictionary<String, EventContainer> observers;
         private static NotificationCenter _instance;
@@ -33,17 +33,17 @@ namespace StarterGame
             {
             }
 
-            public void addObserver(Action<Notification> observer)
+            public void addObserver(Action<Notification> observer)//adds observer of specified event.
             {
                 Observer += observer;
             }
 
-            public void removeObserver(Action<Notification> observer)
+            public void removeObserver(Action<Notification> observer)//removes observer of specified event.
             {
                 Observer -= observer;
             }
 
-            public void sendNotification(Notification notification)
+            public void sendNotification(Notification notification)//sends notifications to observers.
             {
                 Observer(notification);
             }

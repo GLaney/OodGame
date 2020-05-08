@@ -1,7 +1,7 @@
 ﻿using System;
 namespace StarterGame
 {
-    public class EquipCommand : Command
+    public class EquipCommand : Command //command to equip item
     {
         public EquipCommand()
         {

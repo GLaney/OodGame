@@ -12,12 +12,7 @@ namespace StarterGame
         override
         public bool execute(Player player)
         {
-            foreach(KeyValuePair<string, ICharacter> entry in player.currentRoom.getEnemies())
-            {
-                entry.Value.CurrentLife = entry.Value.MaxLife;
-            }
-            player.currentRoom = player.previousRoom;
-            player.exit();
+            player.run();
             return false;
         }
     }

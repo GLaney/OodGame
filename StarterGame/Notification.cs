@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace StarterGame
 {
-    public class Notification
+    public class Notification //creates notifications to be sent and received by various classes.
     {
         public String Name { get; set; }
         public Object Object { get; set; }

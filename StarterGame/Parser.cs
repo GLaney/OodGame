@@ -6,13 +6,13 @@ namespace StarterGame
 {
 
     public enum ParserState { Normal, Battle, Shop, Inventory, Dead, Win}
-    public interface IParserState
+    public interface IParserState //seperates player input into command and secondword.
     {
         ParserState State { get; }
         void Enter(Parser parser);
         void Exit(Parser parser);
     }
-
+    // The following classes represent the possible game states and change the commands available in each state.
     public class GameStateNormal : IParserState
     {
         public ParserState State { get { return ParserState.Normal; } }
@@ -38,7 +38,7 @@ namespace StarterGame
         {
 
         }
-        public void Enter(Parser parser)
+        public void Enter(Parser parser)//changes available commands
         {
             Command[] commandArray = { new QuitCommand(), new HelpCommand(), new AttackCommand(), new RunCommand(), new TargetsCommand() };
             parser.Push(new CommandWords(commandArray));
@@ -148,7 +148,6 @@ namespace StarterGame
         {
             commands = new Stack<CommandWords>();
             _state = new GameStateNormal();
-            //commands = newCommands;
             Push(newCommands);
             NotificationCenter.Instance.addObserver("PlayerWillEnterState", PlayerWillEnterState);
             

@@ -1,7 +1,7 @@
 ﻿using System;
 namespace StarterGame
 {
-    public class UnequipCommand : Command
+    public class UnequipCommand : Command //command to unequip an item
     {
         public UnequipCommand()
         {

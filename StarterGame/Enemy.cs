@@ -10,6 +10,7 @@ namespace StarterGame
 		private int _baseDamage;
 		private Room _currentRoom;
 
+		
 		public string Name
 		{
 			set
@@ -87,27 +88,32 @@ namespace StarterGame
 			NotificationCenter.Instance.addObserver("PlayerDidEnterRoom", PlayerDidEnterRoom);
 		}
 
-		public void PlayerDidEnterRoom(Notification notification)
+		public void PlayerDidEnterRoom(Notification notification)//changes state and begins battle if player enters same room.
 		{
 			
 			
 		Player player = (Player)notification.Object;
 			if (this.currentRoom == player.currentRoom)
 			{
-				player.informationMessage("A " + _name + " attacks you as you enter the room!!!");
+				ConsoleColor oldColor = Console.ForegroundColor;
+				Console.ForegroundColor = ConsoleColor.Red;
+				player.outputMessage("A " + Name + " attacks you as you enter the room!!!\n");
+				Console.ForegroundColor = oldColor;
 
 				player.start("battle");
+				
+				
 			}
 			
 			
 		}
 
-		public int Attack(ICharacter target)
+		public int Attack(ICharacter target)//sends damage to player
 		{
 			int totalDmg = _baseDamage ;//Calculate outgoing damage
 			return target.TakeDamage(totalDmg);
 		}
-		public int TakeDamage(int damage)
+		public int TakeDamage(int damage)//receives damage from player and applies defenses if any.
 		{
 			int reduction = 0;
 			int finalDmg = damage - reduction;//Calculate damage reduction

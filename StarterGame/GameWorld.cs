@@ -1,17 +1,14 @@
 ﻿using System;
 namespace StarterGame
 { 
-	public class GameWorld
+	public class GameWorld //creates the world and everything in it (except player)
 	{
         private Room _entrance;
         private Room _trigger;
-
         private Room _fromRoom;
         private Room _toRoom;
         private Room _secret;
         
-
-
         public Room Entrance
         {
             get
@@ -25,7 +22,7 @@ namespace StarterGame
             createWorld();
             
             NotificationCenter.Instance.addObserver("PlayerWillEnterRoom", PlayerWillEnterRoom);
-            NotificationCenter.Instance.addObserver("PlayerUsedBomb", PlayerUsedBomb);
+            NotificationCenter.Instance.addObserver("PlayerUsedBomb", PlayerUsedBomb);// observer for unlocking alternate victory path
         }
 
         public void PlayerWillEnterRoom(Notification notification)
@@ -37,16 +34,11 @@ namespace StarterGame
                 _fromRoom.setExit("west",_toRoom);
                 _toRoom.setExit("north", _fromRoom);
             }
-
-            //player.informationMessage("The player is in " + player.currentRoom.tag);
-            //player.informationMessage("The player is going to " + room.tag);
-
         }
 
-
-        public void createWorld()
+        public void createWorld()//creates the world and everything in it (except player)
         {
-
+            //create rooms
             Room starterRoom = new Room("starterRoom");
             starterRoom.roomDescription = "You wake up in a damp room, dimly lit by two torches near a doorway to the east. You " +
                 "notice the light \nfrom the flames reflecting off of a small dagger stuck in the ground at the foot of the door.";           
@@ -161,7 +153,7 @@ namespace StarterGame
 
             //Make assignments to special rooms.
 
-            _entrance = starterRoom;
+            _entrance = leftRoom2;
             _trigger = returnPassage;
             _fromRoom = returnPassage;
             _toRoom = room5;
@@ -259,13 +251,12 @@ namespace StarterGame
             
 
         }
-        public void PlayerUsedBomb(Notification notification)
+        public void PlayerUsedBomb(Notification notification)// observer for unlocking alternate victory path
         {
             Player player = (Player)notification.Object;
             player.currentRoom.setExit("east",_secret);
             player.informationMessage("The bomb cleared away the rock, revealing a doorway.");
         }
-
     }
 }
 

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace StarterGame
 {
-    public class HelpCommand : Command
+    public class HelpCommand : Command // command to list all currently available commands for the player.
     {
         CommandWords words;
 
@@ -22,7 +22,7 @@ namespace StarterGame
         {
             if (this.hasSecondWord())
             {
-                player.outputMessage("\nI cannot help you with " + this.secondWord);
+                player.outputMessage("\nI cannot help you with " + this.secondWord); // lets the player no that it cant give information specific to their secondword.
             }
             else
             {

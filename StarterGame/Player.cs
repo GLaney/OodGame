@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System;
 using System.IO;
+using System.Linq;
 
 namespace StarterGame
 {
@@ -18,7 +19,7 @@ namespace StarterGame
         private Room _currentRoom = null;
         private Room _previousRoom = null;
         private IItemContainer inventory;
-        private IItemContainer equippedItems;
+        private IItemContainer equippedItems; 
 
         public string Name
         {
@@ -109,7 +110,7 @@ namespace StarterGame
             _currentWeight = 0;
         }
 
-        public void give(IItem item)
+        public void give(IItem item)//adds item to players inventory if withing weight limit
         {
 
             if (item != null)
@@ -131,7 +132,7 @@ namespace StarterGame
             
         }
 
-        public void take(string itemName)
+        public void take(string itemName)//moves item from player inventory to some other container
         {
             
                 IItem item = inventory.findItem(itemName);
@@ -154,7 +155,7 @@ namespace StarterGame
                     "WEIGHT          PRICE    QUANTITY      DAMAGE/ARMOR\n" + inventory.contents());
         }
 
-        public void walkTo(string direction)
+        public void walkTo(string direction)// move from room to room
         {
             Room nextRoom = this._currentRoom.getExit(direction);
             if (nextRoom != null)
@@ -179,7 +180,7 @@ namespace StarterGame
             }
         }
         
-        public void say(string word)
+        public void say(string word)// allows player character to say something.
         {
             Dictionary<string, Object> userInfo = new Dictionary<string, object>();
             userInfo["word"] = word;
@@ -188,7 +189,7 @@ namespace StarterGame
             informationMessage("\n>>> " + word + "\n");
         }
 
-        public void start(string state)
+        public void start(string state)//used to change game from state to state by placing the new state on top of the state stack.
         {
             Dictionary<string, Object> userInfo = new Dictionary<string, object>();
 
@@ -198,6 +199,7 @@ namespace StarterGame
                 informationMessage("Health: " + CurrentLife + "/" + MaxLife);
                 foreach(KeyValuePair<string, ICharacter> entry in currentRoom.getEnemies())
                 {
+                    
                     informationMessage(entry.Value.Name + " Health: " + entry.Value.CurrentLife + "/" + entry.Value.MaxLife);
                 }
             }
@@ -223,7 +225,7 @@ namespace StarterGame
             NotificationCenter.Instance.postNotification(new Notification("PlayerWillEnterState", this, userInfo));
         }
 
-        public void exit()
+        public void exit()//removes state from the stack putting player back into normal state
         {
 
 
@@ -238,7 +240,7 @@ namespace StarterGame
             Console.WriteLine(message);
         }
 
-        public void coloredMessage(string message, ConsoleColor color)
+        public void coloredMessage(string message, ConsoleColor color)//allows to change message collor.
         {
             ConsoleColor oldColor = Console.ForegroundColor;
             Console.ForegroundColor = color;
@@ -261,37 +263,37 @@ namespace StarterGame
             coloredMessage(message, ConsoleColor.Green);
         }
 
-        public int Attack(ICharacter target)
+        public int Attack(ICharacter target) // handles all of combat
         {
             
-            bool victory = true;
+            bool victory = true;// this will be set to false later if an enemy still lives.
             
             if (target != null)
             {
                 Weapon weapon = (Weapon)equippedItems.findItem("weapon");
                 int damageCalc = _baseDamage;
-                if (weapon != null) 
+                if (weapon != null) // if a weapon is equipped usses weapon damage rather than player base damage.
                 {
                     damageCalc = weapon.Damage;
                 }
-                informationMessage("The " + target.Name + " took " + target.TakeDamage(damageCalc) + " damage.");
+                informationMessage("The " + target.Name + " took " + target.TakeDamage(damageCalc) + " damage.");//send damage info to enemy and output damage number.
 
-                foreach (KeyValuePair<string, ICharacter> entry in currentRoom.getEnemies())
+                foreach (KeyValuePair<string, ICharacter> entry in currentRoom.getEnemies())// player receives damage numbers from enemies, applies defences, and takes the damage.
                 {
-                    if (entry.Value.CurrentLife > 0)
+                    if (entry.Value.CurrentLife > 0)// executes for each enemy still alive.
                     {
                         victory = false;
                         
-                        informationMessage("You took " + entry.Value.Attack(this) + " damage from the " + entry.Value.Name + ".");
+                        informationMessage("You took " + entry.Value.Attack(this) + " damage from the " + entry.Value.Name + ".");// output damage received.
                     }
                    
-                    if (CurrentLife <= 0)
+                    if (CurrentLife <= 0)// determine if player is dead.
                     {
-                        dead(entry.Value.Name);
+                        dead(entry.Value.Name);// output player death info and end game.
                     }
                 }
             }
-            informationMessage("\nHealth: " + CurrentLife + "/" + MaxLife);
+            informationMessage("\nHealth: " + CurrentLife + "/" + MaxLife);//output player and enemy health info.
             foreach (KeyValuePair<string, ICharacter> entry in currentRoom.getEnemies())
             {
                 informationMessage(entry.Value.Name + " Health: " + entry.Value.CurrentLife + "/" + entry.Value.MaxLife);
@@ -300,7 +302,7 @@ namespace StarterGame
             {
                 foreach (KeyValuePair<string, ICharacter> entry in currentRoom.getEnemies())
                 {
-                    if(entry.Key.Equals("boss"))
+                    if(entry.Key.Equals("boss"))//if player killed a mini boss this code notification to remove one of the boss door locks
                     {
                         NotificationCenter.Instance.postNotification(new Notification("PlayerKilledMiniBoss", this));
                     }
@@ -312,7 +314,7 @@ namespace StarterGame
             return 0;
         }
 
-        public int TakeDamage(int damage)
+        public int TakeDamage(int damage)// applies defences to number received from enemy and reduces playe health.
         {
             int reduction = 0;
 
@@ -326,7 +328,7 @@ namespace StarterGame
             return finalDmg;
         }
 
-        public void dead(string enemy)
+        public void dead(string enemy)//output player death info and ends game.
         {
             Console.BackgroundColor = ConsoleColor.Red;
             Console.ForegroundColor = ConsoleColor.Black;
@@ -334,7 +336,7 @@ namespace StarterGame
             start("dead");
             NotificationCenter.Instance.postNotification(new Notification("GameOver", this));
         }
-        public void win()
+        public void win()// output victory message and end game.
         {
             informationMessage("\nAs you walk in the room you see her lying in the corner of the room. When she sees you she " +
                 "immediately \nruns, jumps into you arms, and begins to rub her furry face against yours.");
@@ -348,12 +350,14 @@ namespace StarterGame
             NotificationCenter.Instance.postNotification(new Notification("GameOver", this));
         }
 
-        public void equip(string name)
+        public void equip(string name)// equip item by setting equipment dictionary slot equal to an item in inventory. uses dictionary key to limit to one of each equipment type.
         {
+            unequip(name);
             IItem item = inventory.findItem(name);
             
             if(item != null)
             {
+
                 if (item.ItemType.Equals("weapon"))
                 {
                     equippedItems.put(item, "weapon");
@@ -371,7 +375,7 @@ namespace StarterGame
             informationMessage("Equipped:\n" + equippedItems.contents());
         }
 
-        public void unequip(string name)
+        public void unequip(string name)//unequip item by setting equipped value to null.
         {
             IItem item = inventory.findItem(name);
 
@@ -393,7 +397,7 @@ namespace StarterGame
             informationMessage("Equipped:\n" + equippedItems.contents());
         }
 
-        public void useItem(string name)
+        public void useItem(string name)//runs the items use function and removes item from inventory if it is a usable item.
         {
             Item item = null;
             if (inventory.findItem(name) is Item)
@@ -408,7 +412,7 @@ namespace StarterGame
             }
         }
 
-        public void sellItem(string name)
+        public void sellItem(string name)//remove item from inventory and add gold.
         {
             IItem item = inventory.findItem(name);
             if(item != null)
@@ -424,7 +428,7 @@ namespace StarterGame
             }
             informationMessage("Gold remaining: " + _gold);
         }
-        public void buyItem(string name)
+        public void buyItem(string name)//remove gold, remove item from shop inventory, and add to player inventory.
         {
 
             ShopKeep shopkeep = (ShopKeep)currentRoom.getEnemy("shopkeep");
@@ -453,6 +457,24 @@ namespace StarterGame
 
             informationMessage("Gold remaining: " + _gold);
             
+        }
+        public void getTargets() //outputs a list of available attack targets.
+        {
+            string message = "Enemies: ";
+            foreach (KeyValuePair<string, ICharacter> entry in currentRoom.getEnemies())
+            {
+                message = message + entry.Key;
+            }
+            informationMessage(message);
+        }
+        public void run()
+        {
+            foreach (KeyValuePair<string, ICharacter> entry in currentRoom.getEnemies())
+            {
+                entry.Value.CurrentLife = entry.Value.MaxLife;
+            }
+            currentRoom = previousRoom;
+            exit();
         }
     }
 

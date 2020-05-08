@@ -8,15 +8,15 @@ namespace StarterGame
 
     public interface IRoomDelegate
     {
-        Room Container { get; set; }
-        Room getExit(string exitNam, Dictionary<string, Room> exits);
-        string getExits();
+        Room Container { get; set; }// container to hold items within the room.
+        Room getExit(string exitNam, Dictionary<string, Room> exits);// gets the room which is connected in the specified direction.
+        string getExits();// return all the rooms exits.
     }
 
-    public class LockedRoom : IRoomDelegate //create delegate to trap player in a room
+    public class LockedRoom : IRoomDelegate //create delegate to lock boss room.
     {
         public string direction;
-        public int locks { set; get; }
+        public int locks { set; get; }// specify number of locks.
         public Room Container { get; set; }
 
         public LockedRoom(string exitDirection, int numLocks)
@@ -46,7 +46,7 @@ namespace StarterGame
             return "";
         }
 
-        public void PlayerKilledMiniBoss(Notification notification)
+        public void PlayerKilledMiniBoss(Notification notification)//removes a lock when a mini boss is killed.
         {
             Player player = (Player)notification.Object;
             locks -= 1;
@@ -219,22 +219,22 @@ namespace StarterGame
         {
             enemies[enemy.Name] = enemy;
         }
-        public void addShop(ShopKeep shopKeep )
+        public void addShop(ShopKeep shopKeep )//adds a shop to the room.
         {
             enemies[shopKeep.Name] = shopKeep;
 
         }
-        public ICharacter getEnemy(string name)
+        public ICharacter getEnemy(string name)//returns enemy given enemy name
         {
             ICharacter enemy = null;
             this.enemies.TryGetValue(name, out enemy);
             return enemy;
         }
-        public Dictionary<string, ICharacter> getEnemies()
+        public Dictionary<string, ICharacter> getEnemies()//returns a string of enemies in the room.
         {
             return enemies;
         }
-        public void removeEnemies()
+        public void removeEnemies()// removes enemies from enemies dictionary to avoid repeating combat with dead enemies.
         {
             foreach (KeyValuePair<string, ICharacter> enemy in enemies)
             {

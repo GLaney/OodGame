@@ -4,7 +4,7 @@ using System.ComponentModel;
 
 namespace StarterGame
 {
-    public class AttackCommand : Command
+    public class AttackCommand : Command //command to attack an enemy.
     {
         public AttackCommand()
         {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace StarterGame
 {
-    public class TargetsCommand : Command
+    public class TargetsCommand : Command // command to get available attack targets.
     {
 
         public TargetsCommand() : base()
@@ -14,12 +14,7 @@ namespace StarterGame
         override
         public bool execute(Player player)
         {
-            string message = "Enemies: ";
-            foreach(KeyValuePair<string, ICharacter> entry in player.currentRoom.getEnemies())
-            {
-                message = message + entry.Key;
-            }
-            player.informationMessage(message);
+            player.getTargets();
             return false;
         }
     }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace StarterGame
 {
-	public class Cat : ICharacter
+	public class Cat : ICharacter //Cat NPC is the goal of the game. Trigger victory condition when player enters same room as Cat.
 	{
 		private string _name;
 		private int _maxLife;
@@ -20,7 +20,7 @@ namespace StarterGame
 		public Room currentRoom { get; set; }
 		public CharType CharType { get; set; }
 
-		public Cat(string name, Room room)
+		public Cat(string name, Room room)//Triggers win con if player in same room as cat.
 		{
 			_name = name;
 			_currentRoom = room;

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace StarterGame
 {
-    public class GoCommand : Command
+    public class GoCommand : Command //command to move from room to room.
     {
 
         public GoCommand() : base()

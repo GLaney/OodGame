@@ -108,28 +108,28 @@ namespace StarterGame
 
 		}
 
-		public int Attack(ICharacter target)
+		public int Attack(ICharacter target)//sends damage to player
 		{
 			int totalDmg = _baseDamage;//Calculate outgoing damage
 			return target.TakeDamage(totalDmg);
 		}
-		public int TakeDamage(int damage)
+		public int TakeDamage(int damage)//receives damage from player and applies defenses if any.
 		{
 			int reduction = 0;
 			int finalDmg = damage - reduction;//Calculate damage reduction
 			_currentLife -= finalDmg;
 			return finalDmg;
 		}
-		public void addToShop(IItem item, int quantity)
+		public void addToShop(IItem item, int quantity)//add an item to the shop.
 		{
 			shopInventory.put(item, item.Name);
 			item.Quantity = quantity;
 		}
-		public void markUp(IItem item)
+		public void markUp(IItem item)//marks up price on specified item.
 		{
 			item.Value = (int)Math.Round(item.Value * 1.2);
 		}
-		public void bulkMarkUp()
+		public void bulkMarkUp()// marks up all item in inventory by 20%. used when creating shop at game start.
 		{
 			string[] itemTypes = new string[14] {"dagger", "club", "staff", "mace", "sword", "axe", "cloak", "tunic", 
 				"leather", "chain", "scale", "plate", "potion", "bomb"};
@@ -138,11 +138,11 @@ namespace StarterGame
 				markUp(shopInventory.findItem(type));
 			}
 		}
-		public IItem sellItem(string name)
+		public IItem sellItem(string name)//remove item from inventory and receive payment from player.
 		{
 			return shopInventory.remove(name);
 		}
-		public int getPrice(string name)
+		public int getPrice(string name)//returns specified items price.
 		{
 			int price;
 			IItem item = shopInventory.findItem(name);

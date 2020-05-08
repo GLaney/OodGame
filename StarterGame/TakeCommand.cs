@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace StarterGame
 {
-    public class TakeCommand : Command
+    public class TakeCommand : Command//command to pick up item.
     {
 
         public TakeCommand() : base()

@@ -4,7 +4,7 @@ using System;
 
 namespace StarterGame
 {
-    public abstract class Command
+    public abstract class Command// uses parser to seperate user input into a command and a second word to be used by the command if needed.
     {
         private string _name;
         public string name { get { return _name; } set { _name = value; } }

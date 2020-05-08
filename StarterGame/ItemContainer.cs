@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace StarterGame
 {
-	public interface IItemContainer : IItem
+	public interface IItemContainer : IItem // used for inventories and room item contents. made to be able to hold other containers if needed
     {
 		void put(IItem item, string key);
 		IItem remove(string itemName);
@@ -20,7 +20,6 @@ namespace StarterGame
 		private float _weight;
 		private int _quantity;
 		
-
 		private Dictionary<string, IItem> items;
 		public string Name { get {return _name; } }
 		public float Weight { get { return _weight; } }
@@ -49,9 +48,6 @@ namespace StarterGame
 			_weight = weight;
 			items = new Dictionary<string, IItem>();
 		}
-
-		
-
 
 		public void put(IItem item, string key)
 		{
@@ -109,7 +105,7 @@ namespace StarterGame
 			return itemNames;
         }
 
-		public IItem findItem(string itemName)
+		public IItem findItem(string itemName)//returns an item with the given name if it exists within the container.
 		{
 			IItem item = null;
 			items.TryGetValue(itemName, out item);
@@ -117,7 +113,7 @@ namespace StarterGame
 			return item;
 		}
 
-		public void deleteItem(string itemName)
+		public void deleteItem(string itemName) // "deletes" item from container
 		{
 			items.Remove(itemName);
 		}

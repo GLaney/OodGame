@@ -1,7 +1,7 @@
 ﻿using System;
 namespace StarterGame
 {
-    public class BuyCommand : Command
+    public class BuyCommand : Command //command to purchase item
     {
         public BuyCommand()
         {

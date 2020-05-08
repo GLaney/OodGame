@@ -9,10 +9,7 @@ namespace StarterGame
         int Value { get; set; }
         string ItemType { get; }
         int Quantity { get; set; }
-        string ToString();
-
-        
-        
+        string ToString(); //all iitem tostrings are almost identical. each has small difference base on item types
     }
 
     public class Armor : IItem
@@ -42,7 +39,6 @@ namespace StarterGame
                 return _name;
             }
         }
-
         public float Weight
         {
             get
@@ -61,7 +57,6 @@ namespace StarterGame
                 _value = value;
             }
         }
-
         public string ItemType
         {
             get
@@ -132,7 +127,7 @@ namespace StarterGame
         }
 
         override
-            public string ToString()
+            public string ToString()//outputs item information with spacing to line up in menus. includes armor values.
         {
             string space1 = "";
             string space2 = "";
@@ -193,7 +188,7 @@ namespace StarterGame
 
             return this._name + space1 + this._itemType + space2 + this._weight + space3
                 + this._value + "G" + space4 + this.Quantity + space5 + this.ArmorValue;
-        }
+        } 
     }
 
     public class Weapon : IItem
@@ -311,7 +306,7 @@ namespace StarterGame
 
         }
         override
-            public string ToString()
+            public string ToString()//outputs item information with spacing to line up in menus. includes damage values.
         {
             string space1 = "";
             string space2 = "";
@@ -500,7 +495,7 @@ namespace StarterGame
         }
 
         override
-            public string ToString()
+            public string ToString()//outputs item information with spacing to line up in menus. has no damage or armor value.
         {
             string space1 = "";
             string space2 = "";

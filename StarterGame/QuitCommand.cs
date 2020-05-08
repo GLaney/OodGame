@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace StarterGame
 {
-    public class QuitCommand : Command
+    public class QuitCommand : Command // command to quit playing the game.
     {
 
         public QuitCommand() : base()
@@ -17,7 +17,7 @@ namespace StarterGame
             bool answer = true;
             if (this.hasSecondWord())
             {
-                player.outputMessage("\nI cannot quit " + this.secondWord);
+                player.outputMessage("\nI cannot quit " + this.secondWord); // lets the player know you cannot specify what to quit.
                 answer = false;
             }
             return answer;

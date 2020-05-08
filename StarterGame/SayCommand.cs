@@ -2,7 +2,7 @@
 
 namespace StarterGame
 {
-	public class SayCommand : Command
+	public class SayCommand : Command // command to allow player character to say something.
 	{
 		public SayCommand() : base()
 		{
